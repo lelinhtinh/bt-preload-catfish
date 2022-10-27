@@ -1,4 +1,7 @@
 {
-  "cSpell.words": ["iife"],
+  "cSpell.words": [
+    "bannerize",
+    "iife"
+  ],
   "cSpell.enableFiletypes": ["!yaml"]
 }

@@ -5,12 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Test</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+    />
     <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
       .example {
+        box-sizing: border-box;
         background: #7b7b7b;
         border: 2px solid;
-        margin: 1em auto;
+        margin: 0 auto;
         padding: 1em;
+        height: 100vh;
       }
     </style>
   </head>
@@ -19,12 +30,8 @@
     <div class="example">2</div>
     <div class="example">3</div>
 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"
-      integrity="sha512-YHQNqPhxuCY2ddskIbDlZfwY6Vx3L3w9WRbyJCY81xpqLmrM6rL2+LocBgeVHwGY9SXYfQWJ+lcEWx1fKS2s8A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
     <script src="./../dist/catfish.js"></script>
     <script src="./demo.js"></script>
   </body>
