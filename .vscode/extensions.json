@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+      "yandeu.five-server",
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "EditorConfig.EditorConfig"
+    ]
+}
