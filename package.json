@@ -1,9 +1,12 @@
 {
   "name": "bt-catfish",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "alias": {
     "jquery": {
       "global": "$"
+    },
+    "js-cookie": {
+      "global": "Cookies"
     }
   },
   "catfish": "dist/catfish.js",
@@ -18,7 +21,7 @@
   },
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "parcel build",
+    "build": "parcel build && bannerize dist/catfish.js",
     "prestart": "rimraf dist",
     "start": "parcel watch",
     "test": "jest",
@@ -30,8 +33,10 @@
     "@parcel/packager-ts": "2.7.0",
     "@parcel/transformer-typescript-types": "2.7.0",
     "@types/jquery": "1.10.27",
+    "@types/js-cookie": "^3.0.2",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "@typescript-eslint/parser": "^5.41.0",
+    "bannerize": "^1.1.4",
     "eslint": "^8.26.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -50,6 +55,9 @@
       "browser": true,
       "es2021": true,
       "jquery": true
+    },
+    "globals": {
+      "Cookies": true
     },
     "extends": [
       "prettier",
