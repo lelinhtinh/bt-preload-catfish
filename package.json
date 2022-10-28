@@ -1,6 +1,6 @@
 {
   "name": "bt-catfish",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "alias": {
     "jquery": {
       "global": "$"
@@ -16,7 +16,8 @@
       "engines": {
         "browsers": "> 0.25%, not dead"
       },
-      "outputFormat": "global"
+      "outputFormat": "global",
+      "sourceMap": false
     }
   },
   "scripts": {

@@ -64,15 +64,15 @@ declare global {
       css: {
         position: 'absolute',
         border: 0,
-        top: -25,
+        top: -20,
         left: '50%',
-        marginLeft: -30,
-        width: 60,
-        height: 25,
+        marginLeft: -25,
+        width: 50,
+        height: 20,
         cursor: 'pointer',
         textAlign: 'center',
         lineHeight: 1,
-        fontSize: '1.5em',
+        fontSize: '1.3em',
         color: '#005a00',
         background: '#16FF16',
         transition: 'transform ease-in-out 0.4s',
@@ -87,7 +87,10 @@ declare global {
       if ($close.css('transform') === 'matrix(1, 0, 0, 1, 0, 0)') {
         $close.css('transform', 'rotateX(180deg)');
         $wrapper.css('transform', 'translate(-50%, 100%)');
-        settings.status && Cookies.set('catfish_preload_closed', 'true');
+        settings.status &&
+          Cookies.set('catfish_preload_closed', 'true', {
+            expires: addHours(settings.expires),
+          });
       } else {
         $close.css('transform', 'rotateX(0deg)');
         $wrapper.css('transform', 'translate(-50%, 0)');
