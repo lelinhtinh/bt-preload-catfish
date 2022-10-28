@@ -1,6 +1,6 @@
 {
   "name": "bt-catfish",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "alias": {
     "jquery": {
       "global": "$"
@@ -34,6 +34,7 @@
     "@parcel/transformer-typescript-types": "2.7.0",
     "@types/jquery": "1.10.27",
     "@types/js-cookie": "^3.0.2",
+    "@types/throttle-debounce": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "@typescript-eslint/parser": "^5.41.0",
     "bannerize": "^1.1.4",
@@ -48,7 +49,8 @@
     "user-agent-data-types": "^0.3.0"
   },
   "dependencies": {
-    "is-mobile": "^3.1.1"
+    "is-mobile": "^3.1.1",
+    "throttle-debounce": "^5.0.0"
   },
   "eslintConfig": {
     "env": {
