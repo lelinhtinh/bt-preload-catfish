@@ -1,6 +1,7 @@
 {
-  "name": "bt-catfish",
-  "version": "1.0.0",
+  "name": "bt-preload-catfish",
+  "version": "1.2.0",
+  "description": "jQuery plugin for create preload and catfish banners",
   "alias": {
     "jquery": {
       "global": "$"
@@ -10,20 +11,32 @@
     }
   },
   "catfish": "dist/catfish.js",
+  "preload": "dist/preload.js",
   "targets": {
     "catfish": {
-      "source": "src/index.ts",
+      "source": "src/catfish.ts",
       "engines": {
         "browsers": "> 0.25%, not dead"
       },
-      "outputFormat": "global"
+      "outputFormat": "global",
+      "sourceMap": false
+    },
+    "preload": {
+      "source": "src/preload.ts",
+      "engines": {
+        "browsers": "> 0.25%, not dead"
+      },
+      "outputFormat": "global",
+      "sourceMap": false
     }
   },
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "parcel build && bannerize dist/catfish.js",
-    "prestart": "rimraf dist",
-    "start": "parcel watch",
+    "clean": "rimraf dist",
+    "build:preload": "parcel build --target preload",
+    "build:catfish": "parcel build --target catfish",
+    "build": "yarn clean && yarn build:preload && yarn build:catfish && ncat node_modules/js-cookie/dist/js.cookie.min.js dist/catfish.js dist/preload.js --footer ncat.footer.js --output dist/bundle.js",
+    "start:preload": "yarn clean && parcel watch --target preload",
+    "start:catfish": "yarn clean && parcel watch --target catfish",
     "test": "jest",
     "lint": "eslint",
     "check": "tsc --noEmit",
@@ -34,13 +47,16 @@
     "@parcel/transformer-typescript-types": "2.7.0",
     "@types/jquery": "1.10.27",
     "@types/js-cookie": "^3.0.2",
+    "@types/throttle-debounce": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "@typescript-eslint/parser": "^5.41.0",
-    "bannerize": "^1.1.4",
     "eslint": "^8.26.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "jest": "^29.2.2",
+    "jquery": "^1",
+    "js-cookie": "^3.0.1",
+    "ncat": "^4.0.2",
     "parcel": "latest",
     "prettier": "2.7.1",
     "rimraf": "^3.0.2",
@@ -48,7 +64,8 @@
     "user-agent-data-types": "^0.3.0"
   },
   "dependencies": {
-    "is-mobile": "^3.1.1"
+    "is-mobile": "^3.1.1",
+    "throttle-debounce": "^5.0.0"
   },
   "eslintConfig": {
     "env": {
