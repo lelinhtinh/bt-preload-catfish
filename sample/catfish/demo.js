@@ -1,10 +1,10 @@
 jQuery.fn.catfish({
-  banner_image: 'https://i.imgur.com/uNjSy6e.gif',
+  banner_image: '/sample/ads.gif',
   banner_click: 'https://blogtruyen.com/',
-  width: 500,
-  height: 300,
+  width: 400,
+  height: 100,
   mobile_only: false,
-  limit: 3, // -1 to disable limit
+  limit: 10, // -1 to disable limit
   expires: 24, // hours
   save_state: true, // save closed state
 });
