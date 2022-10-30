@@ -28,13 +28,6 @@ declare global {
       return;
     }
 
-    const maxWidth =
-      settings.width > screen.width ? screen.width : settings.width;
-    const maxHeight =
-      settings.height > screen.height - 120
-        ? screen.height - 120
-        : settings.height;
-
     if (settings.limit > 0) {
       settings.limit -= 1;
       let preloadCookie = Cookies.get('preload_banner_limit');
@@ -66,8 +59,8 @@ declare global {
       css: {
         display: 'block',
         position: 'fixed',
-        height: maxHeight,
-        width: maxWidth,
+        height: settings.height,
+        width: settings.width,
         left: '50%',
         top: '50%',
         marginRight: '50%',
