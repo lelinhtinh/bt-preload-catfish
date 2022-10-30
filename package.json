@@ -10,10 +10,11 @@
       "global": "Cookies"
     }
   },
+  "catfish": "dist/catfish.js",
+  "preload": "dist/preload.js",
   "targets": {
     "catfish": {
       "source": "src/catfish.ts",
-      "distDir": "dist",
       "engines": {
         "browsers": "> 0.25%, not dead"
       },
@@ -22,7 +23,6 @@
     },
     "preload": {
       "source": "src/preload.ts",
-      "distDir": "dist",
       "engines": {
         "browsers": "> 0.25%, not dead"
       },
@@ -34,7 +34,7 @@
     "clean": "rimraf dist",
     "build:preload": "parcel build --target preload",
     "build:catfish": "parcel build --target catfish",
-    "build": "yarn clean && yarn build:preload && yarn build:catfish && ncat node_modules/js-cookie/dist/js.cookie.min.js dist/catfish.js --footer ncat.footer.js --output dist/bundle.js",
+    "build": "yarn clean && yarn build:preload && yarn build:catfish && ncat node_modules/js-cookie/dist/js.cookie.min.js dist/catfish.js dist/preload.js --footer ncat.footer.js --output dist/bundle.js",
     "start:preload": "yarn clean && parcel watch --target preload",
     "start:catfish": "yarn clean && parcel watch --target catfish",
     "test": "jest",
