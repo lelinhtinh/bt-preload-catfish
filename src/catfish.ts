@@ -1,20 +1,20 @@
 import { addHours, isMobileDevice } from './utils';
-import { ICatfishOptions } from './types';
+import { IBannerOptions } from './types';
 import * as Cookies from 'js-cookie';
 import { updateWrapperSize } from './helpers';
 import { debounce } from 'throttle-debounce';
 
 declare global {
   interface JQuery {
-    catfish(options: ICatfishOptions): void;
+    catfish(options: IBannerOptions): void;
   }
 }
 
 (function ($) {
-  $.fn.catfish = (options: ICatfishOptions) => {
+  $.fn.catfish = (options: IBannerOptions) => {
     const settings = $.extend(
       {
-        catfish_click: null,
+        banner_click: null,
         close_click: null,
         width: 400,
         height: 100,
@@ -24,7 +24,7 @@ declare global {
         expires: 36,
       },
       options,
-    ) as Required<ICatfishOptions>;
+    ) as Required<IBannerOptions>;
 
     if (settings.mobile_only && !isMobileDevice) {
       return;
@@ -87,14 +87,14 @@ declare global {
       if ($close.css('transform') === 'matrix(1, 0, 0, 1, 0, 0)') {
         $close.css('transform', 'rotateX(180deg)');
         $wrapper.css('transform', 'translate(-50%, 100%)');
-        settings.status &&
+        settings.save_state &&
           Cookies.set('catfish_preload_closed', 'true', {
             expires: addHours(settings.expires),
           });
       } else {
         $close.css('transform', 'rotateX(0deg)');
         $wrapper.css('transform', 'translate(-50%, 0)');
-        settings.status && Cookies.remove('catfish_preload_closed');
+        settings.save_state && Cookies.remove('catfish_preload_closed');
       }
     });
 
@@ -116,7 +116,7 @@ declare global {
     });
 
     $('body').append($wrapper.append($iframe, $close));
-    if (settings.status && Cookies.get('catfish_preload_closed')) {
+    if (settings.save_state && Cookies.get('catfish_preload_closed')) {
       $close.trigger('click');
     }
 
@@ -134,7 +134,7 @@ declare global {
 
     const $iframeBody = $iframe.contents().find('body');
     const $image = $('<img />', {
-      src: settings.catfish_src,
+      src: settings.banner_image,
       css: {
         display: 'block',
         position: 'relative',
@@ -148,10 +148,10 @@ declare global {
     });
     $iframeBody.append($image);
 
-    if (settings.catfish_click) {
+    if (settings.banner_click) {
       $image.wrap(
         $('<a />', {
-          href: settings.catfish_click,
+          href: settings.banner_click,
           target: '_blank',
         }),
       );
