@@ -86,10 +86,16 @@ declare global {
       if ($close.css('transform') === 'matrix(1, 0, 0, 1, 0, 0)') {
         $close.css('transform', 'rotateX(180deg)');
         $wrapper.css('transform', 'translate(-50%, 100%)');
-        settings.save_state &&
-          Cookies.set('catfish_banner_closed', 'true', {
-            expires: addHours(settings.expires),
-          });
+        if (settings.save_state) {
+          if (
+            (settings.limit === -1 && !Cookies.get('catfish_banner_closed')) ||
+            settings.limit !== -1
+          ) {
+            Cookies.set('catfish_banner_closed', 'true', {
+              expires: addHours(settings.expires),
+            });
+          }
+        }
       } else {
         $close.css('transform', 'rotateX(0deg)');
         $wrapper.css('transform', 'translate(-50%, 0)');
