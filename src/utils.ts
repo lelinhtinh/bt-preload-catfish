@@ -23,33 +23,31 @@ export function sizeByRatio(
 }
 
 export function calcSize(
-  width: number,
-  height: number,
   maxWidth: number,
   maxHeight: number,
   settingWidth: number,
   settingHeight: number,
 ) {
-  let temp = {
-    width: width < settingWidth ? settingWidth : width,
-    height: height < settingHeight ? settingHeight : height,
-  };
+  let temp = { width: settingWidth, height: settingHeight };
 
   if (temp.width > maxWidth) {
     temp = {
       width: maxWidth,
-      height: sizeByRatio(width, height, 'width', maxWidth),
+      height: sizeByRatio(settingWidth, settingHeight, 'width', maxWidth),
     };
   }
   if (temp.height > maxHeight) {
     temp = {
-      width: sizeByRatio(width, height, 'height', maxHeight),
+      width: sizeByRatio(settingWidth, settingHeight, 'height', maxHeight),
       height: maxHeight,
     };
   }
+  if (temp.width > maxWidth) {
+    temp = {
+      width: maxWidth,
+      height: sizeByRatio(settingWidth, settingHeight, 'width', maxWidth),
+    };
+  }
 
-  return {
-    width: temp.width > maxWidth ? maxWidth : temp.width,
-    height: temp.height > maxHeight ? maxHeight : temp.height,
-  };
+  return temp;
 }

@@ -1,7 +1,6 @@
-import { addHours, isMobileDevice } from './utils';
+import { addHours, calcSize, isMobileDevice } from './utils';
 import { IBannerOptions } from './types';
 import * as Cookies from 'js-cookie';
-import { updateWrapperSize } from './helpers';
 import { debounce } from 'throttle-debounce';
 
 declare global {
@@ -19,7 +18,7 @@ declare global {
         width: 400,
         height: 100,
         mobile_only: false,
-        status: false,
+        save_state: false,
         limit: 1,
         expires: 36,
       },
@@ -32,9 +31,9 @@ declare global {
 
     if (settings.limit > 0) {
       settings.limit -= 1;
-      let catfishCookie = Cookies.get('catfish_preload');
+      let catfishCookie = Cookies.get('catfish_banner_limit');
       if (catfishCookie === '-1') {
-        Cookies.remove('catfish_preload');
+        Cookies.remove('catfish_banner_limit');
         catfishCookie = undefined;
       }
       if (catfishCookie !== undefined) {
@@ -88,13 +87,13 @@ declare global {
         $close.css('transform', 'rotateX(180deg)');
         $wrapper.css('transform', 'translate(-50%, 100%)');
         settings.save_state &&
-          Cookies.set('catfish_preload_closed', 'true', {
+          Cookies.set('catfish_banner_closed', 'true', {
             expires: addHours(settings.expires),
           });
       } else {
         $close.css('transform', 'rotateX(0deg)');
         $wrapper.css('transform', 'translate(-50%, 0)');
-        settings.save_state && Cookies.remove('catfish_preload_closed');
+        settings.save_state && Cookies.remove('catfish_banner_closed');
       }
     });
 
@@ -116,10 +115,24 @@ declare global {
     });
 
     $('body').append($wrapper.append($iframe, $close));
-    if (settings.save_state && Cookies.get('catfish_preload_closed')) {
+    if (settings.save_state && Cookies.get('catfish_banner_closed')) {
       $close.trigger('click');
     }
 
+    const updateWrapperSize = (
+      $wrapper: JQuery,
+      settingWidth: number,
+      settingHeight: number,
+    ) => {
+      $wrapper.css(
+        calcSize(
+          window.outerWidth,
+          window.outerHeight / 2,
+          settingWidth,
+          settingHeight,
+        ),
+      );
+    };
     updateWrapperSize($wrapper, settings.width, settings.height);
     $(window).on(
       'resize',
@@ -166,7 +179,7 @@ declare global {
       );
     }
 
-    Cookies.set('catfish_preload', settings.limit.toString(), {
+    Cookies.set('catfish_banner_limit', settings.limit.toString(), {
       expires: addHours(settings.expires),
     });
   };
