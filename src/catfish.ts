@@ -18,9 +18,10 @@ declare global {
         width: 400,
         height: 100,
         mobile_only: false,
-        save_state: false,
         limit: 1,
         expires: 36,
+        save_state: false,
+        action: 'toggle',
       },
       options,
     ) as Required<IBannerOptions>;
@@ -29,6 +30,7 @@ declare global {
       return;
     }
 
+    const catfishCookieClose = Cookies.get('catfish_banner_closed');
     if (settings.limit > 0) {
       settings.limit -= 1;
       let catfishCookie = Cookies.get('catfish_banner_limit');
@@ -41,6 +43,8 @@ declare global {
         if (catfishCookieLimit <= 0) return;
         settings.limit = catfishCookieLimit - 1;
       }
+    } else {
+      if (catfishCookieClose && settings.action === 'remove') return;
     }
 
     const $wrapper = $('<div />', {
@@ -88,13 +92,18 @@ declare global {
         $wrapper.css('transform', 'translate(-50%, 100%)');
         if (settings.save_state) {
           if (
-            (settings.limit === -1 && !Cookies.get('catfish_banner_closed')) ||
-            settings.limit !== -1
+            (settings.limit === -1 && !catfishCookieClose) ||
+            (settings.limit !== -1 && settings.action === 'toggle')
           ) {
             Cookies.set('catfish_banner_closed', 'true', {
               expires: addHours(settings.expires),
             });
           }
+        }
+        if (settings.action === 'remove') {
+          setTimeout(() => {
+            $wrapper.remove();
+          }, 400);
         }
       } else {
         $close.css('transform', 'rotateX(0deg)');
@@ -121,7 +130,11 @@ declare global {
     });
 
     $('body').append($wrapper.append($iframe, $close));
-    if (settings.save_state && Cookies.get('catfish_banner_closed')) {
+    if (
+      settings.save_state &&
+      catfishCookieClose &&
+      settings.action === 'toggle'
+    ) {
       $close.trigger('click');
     }
 

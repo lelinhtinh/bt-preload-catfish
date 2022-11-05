@@ -3,5 +3,11 @@
     "iife",
     "ncat"
   ],
-  "cSpell.enableFiletypes": ["!yaml"]
+  "cSpell.enableFiletypes": [
+    "!yaml"
+  ],
+  "conventionalCommits.scopes": [
+    "preload",
+    "catfish"
+  ]
 }

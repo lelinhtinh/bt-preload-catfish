@@ -9,8 +9,10 @@ declare global {
   }
 }
 
+export type PreloadOptions = Omit<IBannerOptions, 'save_state' | 'action'>;
+
 (function ($) {
-  $.fn.preload = (options: Omit<IBannerOptions, 'save_state'>) => {
+  $.fn.preload = (options: PreloadOptions) => {
     const settings = $.extend(
       {
         banner_click: null,
@@ -22,7 +24,7 @@ declare global {
         expires: 36,
       },
       options,
-    ) as Required<Omit<IBannerOptions, 'save_state'>>;
+    ) as Required<PreloadOptions>;
 
     if (settings.mobile_only && !isMobileDevice) {
       return;
