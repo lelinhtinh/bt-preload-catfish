@@ -6,7 +6,7 @@
     "target": "es2021",
     "experimentalDecorators": true,
     "moduleResolution": "node",
-    "types": ["jquery", "js-cookie", "./node_modules/user-agent-data-types"],
+    "types": ["jquery", "js-cookie"],
     "outDir": "./dist",
     "isolatedModules": true,
     "strict": true,

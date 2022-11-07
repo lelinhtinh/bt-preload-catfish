@@ -5,7 +5,8 @@ export interface IBannerOptions {
   width?: number;
   height?: number;
   mobile_only?: boolean;
-  save_state?: boolean;
   limit?: number;
   expires?: number;
+  action: 'remove' | 'toggle';
+  save_state?: boolean;
 }
