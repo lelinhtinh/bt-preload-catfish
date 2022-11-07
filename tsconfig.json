@@ -1,0 +1,16 @@
+{
+  "include": ["src/**/*", "sample/**/*"],
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    "target": "es2021",
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "types": ["jquery", "js-cookie"],
+    "outDir": "./dist",
+    "isolatedModules": true,
+    "strict": true,
+    "noImplicitThis": false,
+    "skipLibCheck": true
+  }
+}

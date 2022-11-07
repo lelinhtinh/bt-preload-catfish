@@ -1,0 +1,13 @@
+{
+  "cSpell.words": [
+    "iife",
+    "ncat"
+  ],
+  "cSpell.enableFiletypes": [
+    "!yaml"
+  ],
+  "conventionalCommits.scopes": [
+    "preload",
+    "catfish"
+  ]
+}
