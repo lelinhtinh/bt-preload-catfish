@@ -12,7 +12,9 @@ declare global {
 export type PreloadOptions = Omit<IBannerOptions, 'save_state' | 'action'>;
 
 (function ($) {
-  $.fn.preload = (options: PreloadOptions) => {
+  const namespace = 'preload';
+
+  $.fn[namespace] = (options: PreloadOptions) => {
     const settings = $.extend(
       {
         banner_click: null,
@@ -32,15 +34,15 @@ export type PreloadOptions = Omit<IBannerOptions, 'save_state' | 'action'>;
 
     if (settings.limit > 0) {
       settings.limit -= 1;
-      let preloadCookie = Cookies.get('preload_banner_limit');
-      if (preloadCookie === '-1') {
-        Cookies.remove('preload_banner_limit');
-        preloadCookie = undefined;
+      let bannerCookie = Cookies.get(`${namespace}_banner_limit`);
+      if (bannerCookie === '-1') {
+        Cookies.remove(`${namespace}_banner_limit`);
+        bannerCookie = undefined;
       }
-      if (preloadCookie !== undefined) {
-        const preloadCookieLimit = parseInt(preloadCookie, 10);
-        if (preloadCookieLimit <= 0) return;
-        settings.limit = preloadCookieLimit - 1;
+      if (bannerCookie !== undefined) {
+        const bannerCookieLimit = parseInt(bannerCookie, 10);
+        if (bannerCookieLimit <= 0) return;
+        settings.limit = bannerCookieLimit - 1;
       }
     }
 
@@ -95,6 +97,7 @@ export type PreloadOptions = Omit<IBannerOptions, 'save_state' | 'action'>;
     );
 
     const $iframe = $('<iframe />', {
+      title: namespace,
       css: {
         overflow: 'hidden',
         display: 'block',
@@ -183,7 +186,7 @@ export type PreloadOptions = Omit<IBannerOptions, 'save_state' | 'action'>;
     $overlay.on('click', closeModal);
     $close.on('click', closeModal);
 
-    Cookies.set('preload_banner_limit', settings.limit.toString(), {
+    Cookies.set(`${namespace}_banner_limit`, settings.limit.toString(), {
       expires: addHours(settings.expires),
     });
   };

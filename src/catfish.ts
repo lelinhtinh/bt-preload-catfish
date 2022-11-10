@@ -10,7 +10,9 @@ declare global {
 }
 
 (function ($) {
-  $.fn.catfish = (options: IBannerOptions) => {
+  const namespace = 'catfish';
+
+  $.fn[namespace] = (options: IBannerOptions) => {
     const settings = $.extend(
       {
         banner_click: null,
@@ -30,21 +32,21 @@ declare global {
       return;
     }
 
-    const catfishCookieClose = Cookies.get('catfish_banner_closed');
+    const bannerCookieClose = Cookies.get(`${namespace}_banner_closed`);
     if (settings.limit > 0) {
       settings.limit -= 1;
-      let catfishCookie = Cookies.get('catfish_banner_limit');
-      if (catfishCookie === '-1') {
-        Cookies.remove('catfish_banner_limit');
-        catfishCookie = undefined;
+      let bannerCookie = Cookies.get(`${namespace}_banner_limit`);
+      if (bannerCookie === '-1') {
+        Cookies.remove(`${namespace}_banner_limit`);
+        bannerCookie = undefined;
       }
-      if (catfishCookie !== undefined) {
-        const catfishCookieLimit = parseInt(catfishCookie, 10);
-        if (catfishCookieLimit <= 0) return;
-        settings.limit = catfishCookieLimit - 1;
+      if (bannerCookie !== undefined) {
+        const bannerCookieLimit = parseInt(bannerCookie, 10);
+        if (bannerCookieLimit <= 0) return;
+        settings.limit = bannerCookieLimit - 1;
       }
     } else {
-      if (catfishCookieClose && settings.action === 'remove') return;
+      if (bannerCookieClose && settings.action === 'remove') return;
     }
 
     const $wrapper = $('<div />', {
@@ -92,10 +94,10 @@ declare global {
         $wrapper.css('transform', 'translate(-50%, 100%)');
         if (settings.save_state) {
           if (
-            (settings.limit === -1 && !catfishCookieClose) ||
+            (settings.limit === -1 && !bannerCookieClose) ||
             (settings.limit !== -1 && settings.action === 'toggle')
           ) {
-            Cookies.set('catfish_banner_closed', 'true', {
+            Cookies.set(`${namespace}_banner_closed`, 'true', {
               expires: addHours(settings.expires),
             });
           }
@@ -108,7 +110,7 @@ declare global {
       } else {
         $close.css('transform', 'rotateX(0deg)');
         $wrapper.css('transform', 'translate(-50%, 0)');
-        settings.save_state && Cookies.remove('catfish_banner_closed');
+        settings.save_state && Cookies.remove(`${namespace}_banner_closed`);
       }
     });
 
@@ -132,7 +134,7 @@ declare global {
     $('body').append($wrapper.append($iframe, $close));
     if (
       settings.save_state &&
-      catfishCookieClose &&
+      bannerCookieClose &&
       settings.action === 'toggle'
     ) {
       $close.trigger('click');
@@ -198,7 +200,7 @@ declare global {
       );
     }
 
-    Cookies.set('catfish_banner_limit', settings.limit.toString(), {
+    Cookies.set(`${namespace}_banner_limit`, settings.limit.toString(), {
       expires: addHours(settings.expires),
     });
   };
