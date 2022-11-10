@@ -115,31 +115,32 @@ export type PreloadOptions = Omit<IBannerOptions, 'save_state' | 'action'>;
     $body.append($overlay);
     $body.append($wrapper.append($iframe, $close));
 
-    const updateWrapperSize = (
-      $wrapper: JQuery,
-      settingWidth: number,
-      settingHeight: number,
-    ) => {
+    const $window = $(window);
+    const updateWrapperSize = () => {
+      if (!$wrapper.is(':visible')) return;
       $wrapper.css(
         calcSize(
-          window.outerWidth - 40, // scrollbar width
-          window.outerHeight - 200, // floating address bar height
-          settingWidth,
-          settingHeight,
+          $window.width() - 40, // scrollbar width
+          $window.height() - 200, // floating address bar height
+          settings.width,
+          settings.height,
         ),
       );
     };
-    updateWrapperSize($wrapper, settings.width, settings.height);
-    $(window).on(
+    setTimeout(updateWrapperSize, 0);
+    $window.on(
       'resize',
       debounce(
         300,
         () => {
-          updateWrapperSize($wrapper, settings.width, settings.height);
+          updateWrapperSize();
         },
         { atBegin: false },
       ),
     );
+    $(document).on('visibilitychange', () => {
+      if (!document.hidden) updateWrapperSize();
+    });
 
     const $iframeBody = $iframe.contents().find('body');
     const $image = $('<img />', {

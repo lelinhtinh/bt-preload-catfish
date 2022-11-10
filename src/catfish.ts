@@ -138,31 +138,31 @@ declare global {
       $close.trigger('click');
     }
 
-    const updateWrapperSize = (
-      $wrapper: JQuery,
-      settingWidth: number,
-      settingHeight: number,
-    ) => {
+    const $window = $(window);
+    const updateWrapperSize = () => {
       $wrapper.css(
         calcSize(
-          window.outerWidth,
-          window.outerHeight / 2,
-          settingWidth,
-          settingHeight,
+          $window.width(),
+          $window.height() / 2,
+          settings.width,
+          settings.height,
         ),
       );
     };
-    updateWrapperSize($wrapper, settings.width, settings.height);
-    $(window).on(
+    setTimeout(updateWrapperSize, 0);
+    $window.on(
       'resize',
       debounce(
         300,
         () => {
-          updateWrapperSize($wrapper, settings.width, settings.height);
+          updateWrapperSize();
         },
         { atBegin: false },
       ),
     );
+    $(document).on('visibilitychange', () => {
+      if (!document.hidden) updateWrapperSize();
+    });
 
     const $iframeBody = $iframe.contents().find('body');
     const $image = $('<img />', {
