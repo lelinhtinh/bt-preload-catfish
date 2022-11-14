@@ -1,8 +1,16 @@
 jQuery.fn.catfish({
-  banner_image: '/sample/ads.gif',
-  banner_click: 'https://blogtruyen.com/',
+  banners: [
+    {
+      image: '/sample/ads-1.gif',
+      link: 'https://blogtruyen.com/',
+    },
+    {
+      image: '/sample/ads-3.gif',
+      link: 'https://m.blogtruyen.com/',
+    },
+  ],
   width: 400,
-  height: 100,
+  height: 200,
   mobile_only: false,
   limit: 10, // -1 to disable limit
   expires: 24, // hours

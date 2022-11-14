@@ -1,5 +1,5 @@
 jQuery.fn.preload({
-  banner_image: '/sample/ads.gif',
+  banner_image: '/sample/ads-2.gif',
   banner_click: 'https://blogtruyen.com/',
   width: 512,
   height: 410,

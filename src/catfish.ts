@@ -3,19 +3,28 @@ import { IBannerOptions } from './types';
 import * as Cookies from 'js-cookie';
 import { debounce } from 'throttle-debounce';
 
+export type CatfishOptions = Omit<
+  IBannerOptions,
+  'banner_image' | 'banner_click'
+> & {
+  banners: {
+    image: string;
+    link: string;
+  }[];
+};
+
 declare global {
   interface JQuery {
-    catfish(options: IBannerOptions): void;
+    catfish(options: CatfishOptions): void;
   }
 }
 
 (function ($) {
   const namespace = 'catfish';
 
-  $.fn[namespace] = (options: IBannerOptions) => {
+  $.fn[namespace] = (options: CatfishOptions) => {
     const settings = $.extend(
       {
-        banner_click: null,
         close_click: null,
         width: 400,
         height: 100,
@@ -26,7 +35,7 @@ declare global {
         action: 'toggle',
       },
       options,
-    ) as Required<IBannerOptions>;
+    ) as Required<CatfishOptions>;
 
     if (settings.mobile_only && !isMobileDevice) {
       return;
@@ -167,29 +176,28 @@ declare global {
     });
 
     const $iframeBody = $iframe.contents().find('body');
-    const $image = $('<img />', {
-      src: settings.banner_image,
-      css: {
-        display: 'block',
-        position: 'relative',
-        border: 0,
-        margin: 0,
-        lineHeight: 1,
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-      },
-    });
-    $iframeBody.append($image);
+    const bannerHeight = `${100 / settings.banners.length}%`;
 
-    if (settings.banner_click) {
-      $image.wrap(
-        $('<a />', {
-          href: settings.banner_click,
-          target: '_blank',
-        }),
-      );
-    }
+    settings.banners.forEach(({ image, link }) => {
+      const $image = $('<img />', {
+        src: image,
+        css: {
+          display: 'block',
+          position: 'relative',
+          border: 0,
+          margin: 0,
+          lineHeight: 1,
+          width: '100%',
+          height: bannerHeight,
+          objectFit: 'cover',
+        },
+      });
+      const $link = $('<a />', {
+        href: link,
+        target: '_blank',
+      });
+      $iframeBody.append($link.append($image));
+    });
 
     if (settings.close_click) {
       $close.wrap(

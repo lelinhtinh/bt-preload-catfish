@@ -1,6 +1,6 @@
 {
   "name": "bt-preload-catfish",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "jQuery plugin for create preload and catfish banners",
   "alias": {
     "jquery": {

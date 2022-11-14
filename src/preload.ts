@@ -3,13 +3,13 @@ import { IBannerOptions } from './types';
 import * as Cookies from 'js-cookie';
 import { debounce } from 'throttle-debounce';
 
+export type PreloadOptions = Omit<IBannerOptions, 'save_state' | 'action'>;
+
 declare global {
   interface JQuery {
     preload(options: IBannerOptions): void;
   }
 }
-
-export type PreloadOptions = Omit<IBannerOptions, 'save_state' | 'action'>;
 
 (function ($) {
   const namespace = 'preload';
