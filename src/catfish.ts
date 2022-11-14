@@ -140,7 +140,10 @@ declare global {
       frameborder: 0,
     });
 
-    $('body').append($wrapper.append($iframe, $close));
+    $wrapper.append($iframe, $close);
+    const $body = $('html');
+    $body.append($wrapper);
+
     if (
       settings.save_state &&
       bannerCookieClose &&
@@ -175,29 +178,43 @@ declare global {
       if (!document.hidden) updateWrapperSize();
     });
 
-    const $iframeBody = $iframe.contents().find('body');
-    const bannerHeight = `${100 / settings.banners.length}%`;
+    function addIframeContent() {
+      const $iframeBody = $iframe.contents().find('body');
+      const bannerHeight = `${100 / settings.banners.length}%`;
 
-    settings.banners.forEach(({ image, link }) => {
-      const $image = $('<img />', {
-        src: image,
-        css: {
-          display: 'block',
-          position: 'relative',
-          border: 0,
-          margin: 0,
-          lineHeight: 1,
-          width: '100%',
-          height: bannerHeight,
-          objectFit: 'cover',
-        },
+      settings.banners.forEach(({ image, link }) => {
+        const $image = $('<img />', {
+          src: image,
+          css: {
+            display: 'block',
+            position: 'relative',
+            border: 0,
+            margin: 0,
+            lineHeight: 1,
+            width: '100%',
+            height: bannerHeight,
+            objectFit: 'cover',
+          },
+        });
+        const $link = $('<a />', {
+          href: link,
+          target: '_blank',
+        });
+        $iframeBody.append($link.append($image));
       });
-      const $link = $('<a />', {
-        href: link,
-        target: '_blank',
-      });
-      $iframeBody.append($link.append($image));
-    });
+    }
+
+    addIframeContent();
+    (function infinityLoop() {
+      const noDelay = setTimeout(() => {
+        clearTimeout(noDelay);
+        if (!$wrapper.is(':nth-last-child(1)')) {
+          $body.append($wrapper);
+          addIframeContent();
+        }
+        infinityLoop();
+      }, 0);
+    })();
 
     if (settings.close_click) {
       $close.wrap(
