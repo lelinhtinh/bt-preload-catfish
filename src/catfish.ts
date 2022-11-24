@@ -123,24 +123,8 @@ declare global {
       }
     });
 
-    const $iframe = $('<iframe />', {
-      css: {
-        overflow: 'hidden',
-        display: 'block',
-        position: 'relative',
-        border: 0,
-        margin: 0,
-        lineHeight: 1,
-        width: '100%',
-        height: '100%',
-      },
-      scrolling: 0,
-      marginwidth: 0,
-      marginheight: 0,
-      frameborder: 0,
-    });
-
-    $('body').append($wrapper.append($iframe, $close));
+    const $body = $('body');
+    $body.append($wrapper.append($close));
     if (
       settings.save_state &&
       bannerCookieClose &&
@@ -175,10 +159,26 @@ declare global {
       if (!document.hidden) updateWrapperSize();
     });
 
-    const $iframeBody = $iframe.contents().find('body');
     const bannerHeight = `${100 / settings.banners.length}%`;
-
     settings.banners.forEach(({ image, link }) => {
+      const $iframe = $('<iframe />', {
+        css: {
+          overflow: 'hidden',
+          display: 'block',
+          position: 'relative',
+          border: 0,
+          margin: 0,
+          lineHeight: 1,
+          width: '100%',
+          height: bannerHeight,
+        },
+        scrolling: 0,
+        marginwidth: 0,
+        marginheight: 0,
+        frameborder: 0,
+      });
+      $wrapper.append($iframe);
+
       const $image = $('<img />', {
         src: image,
         css: {
@@ -188,7 +188,7 @@ declare global {
           margin: 0,
           lineHeight: 1,
           width: '100%',
-          height: bannerHeight,
+          height: '100%',
           objectFit: 'cover',
         },
       });
@@ -196,6 +196,8 @@ declare global {
         href: link,
         target: '_blank',
       });
+
+      const $iframeBody = $iframe.contents().find('body');
       $iframeBody.append($link.append($image));
     });
 
