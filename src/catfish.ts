@@ -93,8 +93,8 @@ declare global {
         transform: 'rotateX(0deg)',
       },
     }).append(
-      $('<span />', {
-        class: 'glyphicon glyphicon-menu-down',
+      $('<i />', {
+        class: 'fa fa-angle-double-down',
       }),
     );
     $close.on('click', () => {

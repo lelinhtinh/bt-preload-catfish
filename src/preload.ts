@@ -91,8 +91,8 @@ declare global {
         background: '#16FF16',
       },
     }).append(
-      $('<span />', {
-        class: 'glyphicon glyphicon-remove',
+      $('<i />', {
+        class: 'fa fa-times',
       }),
     );
 
